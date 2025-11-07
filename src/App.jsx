@@ -1,46 +1,97 @@
+import React, { useState } from 'react';
 
-import './App.css'
+export default function App() {
+  const [guessed,setGuessed] = useState("Make your Guess!!");
+  const [attempt,setAttemped] = useState(0);
+  const [secret , setSecret]= useState(Math.floor(Math.random() *20) +1);
+  const [input,setInput]=useState('');
 
-function App() {
   
+  console.log(secret);
+
+  const guessBtn=()=>{
+    if(attempt<3){
+      if(input==secret){
+      setGuessed('YOU WON!');
+      setAttemped(attempt+1);
+      }else{
+        setAttemped(attempt+1);
+        setInput('');
+        if(input<secret){
+            setGuessed("Number is too less");
+        }else{
+          setGuessed("Number is too high");
+        }
+          
+
+      }
+
+    }else{
+      setGuessed('Your attempt is over! Please Restart')
+    }
+    
+
+  };
+
+  const restart =()=>{
+    setAttemped(0)
+    setGuessed('Make your Guess!!')
+    setSecret(Math.floor(Math.random() *20) +1);
+    setInput("");
+  }
 
 
-return (
-    <>
-      <div 
-      // style={{ backgroundColor: bgColor }}
-      className="h-screen w-full relative transition-colors duration-300">
 
-        <h1 className='absolute top-5 text-white ml-335 text-xl font-semibold'>(Between 1 and 20)</h1>
-        
-        <button className='ml-5 mt-5 px-5 py-2 bg-white text-2xl font-semibold text-black cursor-pointer transition-transform hover:bg-amber-50'
-        >Play Again!</button>
 
-        <h1 className='absolute bottom-125 text-white text-6xl font-semibold ml-130'
-        >Guess My Number!</h1>
 
-        <hr className='absolute bottom-100 w-full h-1.75 bg-white border-0'/>
 
-        <div className='bg-white px-12 py-4 absolute bottom-85 ml-175 text-8xl font-semibold'
-        >?</div>
 
-        <input 
-        type='number' 
-        className='w-60 px-6 py-4 ml-15 border-4 border-white absolute bottom-45 text-white text-5xl font-semibold bg-transparent text-center caret-white'/>
 
-        <button className='text-black bg-white ml-25 font-semibold text-3xl px-8 py-2 absolute bottom-25 cursor-pointer transition-transform hover:bg-amber-50'
-        >Check!</button>
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white font-inter p-4">
+      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-2xl p-6 sm:p-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center text-blue-400 mb-6">
+          Guess My Number!
+        </h1>
 
-        <h1 className='absolute bottom-65 ml-250 text-3xl font-semibold text-white'>Message</h1>
-        <h1 className='absolute text-white font-semibold text-3xl bottom-45 ml-250'>Score: Score</h1>
+        <p className="text-center text-gray-300 mb-6">
+          I'm thinking of a number between 1 and 20.
+        </p>
 
-        <button className='text-black bg-white ml-198 font-semibold text-3xl px-3 py-2 absolute bottom-15 cursor-pointer transition-transform hover:bg-amber-50'
-        >Reset Highscore</button>
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <input
+            type="number"
+            placeholder="Enter your guess"
+            value={input} 
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-grow px-4 py-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
+          />
+          <button onClick={guessBtn}
+          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 disabled:opacity-50">
+            Guess
+          </button>
+        </div>
 
+        <div className="text-center h-12 flex items-center justify-center mb-4">
+          <p className="text-xl font-medium text-yellow-400">
+            {guessed}
+          </p>
+        </div>
+
+        <div className="text-center text-gray-400 text-lg mb-6">
+          <p>
+            Attempts: {attempt}
+            
+          </p>
+        </div>
+
+        <div className="mt-6 text-center">
+          <button onClick={restart}
+          className="w-full sm:w-auto px-6 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200">
+            Restart Game
+          </button>
+        </div>
       </div>
-    </>
-  )
-  
+    </div>
+  );
 }
-
-export default App
