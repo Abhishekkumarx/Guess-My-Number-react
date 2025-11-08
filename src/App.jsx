@@ -11,7 +11,7 @@ export default function App() {
 
   const guessBtn=()=>{
     if(attempt<3){
-      if(input==secret){
+      if(Number(input)==secret){
       setGuessed('YOU WON!');
       setAttemped(attempt+1);
       }else{
